@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def page_not_found(request, exception):
     """Ошибка 404: страница не найдена."""
 
