@@ -11,7 +11,8 @@ def index(request):
     post_list = Post.objects.select_related('author')
     page_obj = page_object(request, post_list)
     context = {
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'index': True
     }
 
     return render(request, 'posts/index.html', context)
@@ -35,10 +36,11 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.all()
     page_obj = page_object(request, post_list)
-    if request.user.is_authenticated and author.following.exists():
+    if request.user in author.following.all():
         following = True
     else:
         following = False
+
     context = {
         'author': author,
         'page_obj': page_obj,
@@ -125,7 +127,8 @@ def follow_index(request):
     post_list = Post.objects.filter(author__following__user=request.user)
     page_obj = page_object(request, post_list)
     context = {
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'follow': True
     }
 
     return render(request, 'posts/follow.html', context)
@@ -148,7 +151,6 @@ def profile_follow(request, username):
 def profile_unfollow(request, username):
     """Функция отписки."""
     author = get_object_or_404(User, username=username)
-    unfollowing = get_object_or_404(Follow, user=request.user, author=author)
-    unfollowing.delete()
+    Follow.objects.filter(user=request.user, author=author).delete()
 
     return redirect('posts:profile', username)
