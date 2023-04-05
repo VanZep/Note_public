@@ -18,6 +18,7 @@ class ModelsTests(TestCase):
         )
         cls.post = Post.objects.create(
             author=cls.user,
+            group=cls.group,
             text='Тестовый текст поста',
         )
         cls.comment = Comment.objects.create(
@@ -26,17 +27,15 @@ class ModelsTests(TestCase):
             author=cls.user
         )
 
-    def test_post_model_have_correct_object_text(self):
-        """Проверяем, что у модели Post корректно работает __str__."""
-        self.assertEqual(
-            ModelsTests.post.text[:NUMBER_OF_CHAR], str(ModelsTests.post)
-        )
-
-    def test_group_model_have_correct_object_title(self):
-        """Проверяем, что у модели Group корректно работает __str__."""
-        self.assertEqual(
-            ModelsTests.group.title, str(ModelsTests.group)
-        )
+    def test_post_model_and_group_model_have_correct_str(self):
+        """Проверяем, что у моделей Post и Group корректно работает __str__."""
+        model_str = {
+            'post': ModelsTests.post.text,
+            'group': ModelsTests.group.title
+        }
+        for value, expected in model_str.items():
+            with self.subTest(value=value):
+                self.assertEqual(model_str[value], str(expected))
 
     def test_comment_model_have_correct_object_title(self):
         """Проверяем, что у модели Comment корректно работает __str__."""
