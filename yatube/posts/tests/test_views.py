@@ -61,6 +61,14 @@ class ViewsTests(TestCase):
         self.auth_client = Client()
         self.auth_client.force_login(ViewsTests.user)
 
+    def checking_post_attributes(self, post):
+        """Проверка атрибутов поста."""
+        self.assertEqual(post.text, ViewsTests.post.text)
+        self.assertEqual(post.author, ViewsTests.post.author)
+        self.assertEqual(post.group, ViewsTests.post.group)
+        self.assertEqual(post.pk, ViewsTests.post.pk)
+        self.assertEqual(post.image, ViewsTests.post.image)
+
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         kwargs_post_id = {'post_id': ViewsTests.post.pk}
@@ -92,12 +100,7 @@ class ViewsTests(TestCase):
     def test_index_page_show_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
         response = self.client.get(reverse('posts:index'))
-        post = response.context['page_obj'][0]
-        self.assertEqual(post.text, ViewsTests.post.text)
-        self.assertEqual(post.author, ViewsTests.post.author)
-        self.assertEqual(post.group, ViewsTests.post.group)
-        self.assertEqual(post.pk, ViewsTests.post.pk)
-        self.assertEqual(post.image, ViewsTests.post.image)
+        self.checking_post_attributes(response.context['page_obj'][0])
 
     def test_group_list_page_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
@@ -106,7 +109,6 @@ class ViewsTests(TestCase):
                 'posts:group_list', kwargs={'slug': ViewsTests.group.slug}
             )
         )
-        post = response.context['page_obj'][0]
         self.assertEqual(
             response.context.get('group').title, ViewsTests.group.title
         )
@@ -118,11 +120,7 @@ class ViewsTests(TestCase):
                 ViewsTests.group.description
             )
         )
-        self.assertEqual(post.text, ViewsTests.post.text)
-        self.assertEqual(post.author, ViewsTests.post.author)
-        self.assertEqual(post.group, ViewsTests.post.group)
-        self.assertEqual(post.pk, ViewsTests.post.pk)
-        self.assertEqual(post.image, ViewsTests.post.image)
+        self.checking_post_attributes(response.context['page_obj'][0])
 
     def test_profile_page_show_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
@@ -131,15 +129,10 @@ class ViewsTests(TestCase):
                 'posts:profile', kwargs={'username': ViewsTests.user.username}
             )
         )
-        post = response.context['page_obj'][0]
         self.assertEqual(
             response.context.get('author'), ViewsTests.post.author
         )
-        self.assertEqual(post.text, ViewsTests.post.text)
-        self.assertEqual(post.author, ViewsTests.post.author)
-        self.assertEqual(post.group, ViewsTests.post.group)
-        self.assertEqual(post.pk, ViewsTests.post.pk)
-        self.assertEqual(post.image, ViewsTests.post.image)
+        self.checking_post_attributes(response.context['page_obj'][0])
 
     def test_post_detail_page_show_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""
