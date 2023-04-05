@@ -82,7 +82,13 @@ class FormsTests(TestCase):
         )
         self.assertEqual(len(set_posts), 1)
         self.assertTrue(
-            Post.objects.filter(pk=next(iter(set_posts)).pk).exists()
+            Post.objects.filter(
+                pk=next(iter(set_posts)).pk,
+                text=next(iter(set_posts)).text,
+                group=next(iter(set_posts)).group,
+                author=next(iter(set_posts)).author,
+                image=next(iter(set_posts)).image
+            ).exists()
         )
 
     def test_post_edit(self):
