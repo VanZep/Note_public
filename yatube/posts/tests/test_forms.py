@@ -152,5 +152,10 @@ class FormsTests(TestCase):
         )
         self.assertEqual(len(set_comments), 1)
         self.assertTrue(
-            Comment.objects.filter(pk=set_comments.pop().pk).exists()
+            Comment.objects.filter(
+                pk=next(iter(set_comments)).pk,
+                text=next(iter(set_comments)).text,
+                author=next(iter(set_comments)).author,
+                post=next(iter(set_comments)).post
+            ).exists()
         )
