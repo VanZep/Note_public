@@ -36,11 +36,9 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.all()
     page_obj = page_object(request, post_list)
-    if request.user in author.following.all():
-        following = True
-    else:
-        following = False
-
+    following = Follow.objects.filter(
+        user=request.user, author=author
+    ).exists()
     context = {
         'author': author,
         'page_obj': page_obj,
