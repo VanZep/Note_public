@@ -159,3 +159,20 @@ class FormsTests(TestCase):
                 post=next(iter(set_comments)).post
             ).exists()
         )
+
+    def test_guest_does_not_create_entry_in_db(self):
+        """Анонимный пользователь не создает запись в БД."""
+        comments_count = Comment.objects.count()
+        form_data = {
+            'text': 'Новый комментарий',
+            'author': FormsTests.comment.author
+        }
+        self.client.post(
+            reverse(
+                'posts:add_comment', kwargs={
+                    'post_id': FormsTests.post.pk
+                }
+            ),
+            data=form_data
+        )
+        self.assertEqual(Comment.objects.count(), comments_count)
