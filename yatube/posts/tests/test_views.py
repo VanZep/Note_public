@@ -205,7 +205,7 @@ class ViewsTests(TestCase):
             group=ViewsTests.group,
             text=ViewsTests.post.text
         )
-        page_reverse_name = [
+        reverse_name_pages = [
             reverse('posts:index'),
             reverse(
                 'posts:group_list', kwargs={'slug': ViewsTests.group.slug}
@@ -214,7 +214,7 @@ class ViewsTests(TestCase):
                 'posts:profile', kwargs={'username': ViewsTests.user.username}
             )
         ]
-        for reverse_name in page_reverse_name:
+        for reverse_name in reverse_name_pages:
             with self.subTest(reverse_name=reverse_name):
                 response = self.client.get(reverse_name)
         self.assertEqual(response.context['page_obj'][0], new_post)
@@ -273,59 +273,49 @@ class PaginatorViewsTests(TestCase):
             ) for _ in range(NUMBER_OF_POSTS_TEST)
         ])
 
-    def test_index_first_page_pagination(self):
-        """Проверка пагинации первой страницы index."""
-        response = self.client.get(reverse('posts:index'))
-        self.assertEqual(len(response.context['page_obj']), NUMBER_OF_POSTS)
-
-    def test_index_second_page_pagination(self):
-        """Проверка пагинации второй страницы index."""
-        response = self.client.get(reverse('posts:index') + '?page=2')
-        self.assertEqual(len(response.context['page_obj']), (
-            NUMBER_OF_POSTS_TEST - NUMBER_OF_POSTS))
-
-    def test_group_list_first_page_pagination(self):
-        """Проверка пагинации первой страницы group_list."""
-        response = self.client.get(
+    def test_index_group_list_profile_first_page_pagination(self):
+        """Проверка пагинации первой страницы для
+        index, group_list, profile.
+        """
+        reverse_name_pages = [
+            reverse('posts:index'),
             reverse(
                 'posts:group_list', kwargs={
                     'slug': PaginatorViewsTests.group.slug
                 }
-            )
-        )
-        self.assertEqual(len(response.context['page_obj']), NUMBER_OF_POSTS)
-
-    def test_group_list_second_page_pagination(self):
-        """Проверка пагинации второй страницы group_list."""
-        response = self.client.get(
-            reverse(
-                'posts:group_list', kwargs={
-                    'slug': PaginatorViewsTests.group.slug
-                }
-            ) + '?page=2'
-        )
-        self.assertEqual(len(response.context['page_obj']), (
-            NUMBER_OF_POSTS_TEST - NUMBER_OF_POSTS))
-
-    def test_profile_first_page_pagination(self):
-        """Проверка пагинации первой страницы profile."""
-        response = self.client.get(
+            ),
             reverse(
                 'posts:profile', kwargs={
                     'username': PaginatorViewsTests.user.username
                 }
             )
-        )
-        self.assertEqual(len(response.context['page_obj']), NUMBER_OF_POSTS)
+        ]
+        for reverse_name in reverse_name_pages:
+            with self.subTest(reverse_name=reverse_name):
+                response = self.client.get(reverse_name)
+                self.assertEqual(len(response.context['page_obj']), (
+                    NUMBER_OF_POSTS)
+                )
 
-    def test_profile_second_page_pagination(self):
-        """Проверка пагинации второй страницы profile."""
-        response = self.client.get(
+    def test_index_group_list_profile_second_page_pagination(self):
+        """Проверка пагинации второй страницы для
+        index, group_list, profile.
+        """
+        reverse_name_pages = [
+            reverse('posts:index') + '?page=2',
+            reverse(
+                'posts:group_list', kwargs={
+                    'slug': PaginatorViewsTests.group.slug
+                }
+            ) + '?page=2',
             reverse(
                 'posts:profile', kwargs={
                     'username': PaginatorViewsTests.user.username
                 }
             ) + '?page=2'
-        )
-        self.assertEqual(len(response.context['page_obj']), (
-            NUMBER_OF_POSTS_TEST - NUMBER_OF_POSTS))
+        ]
+        for reverse_name in reverse_name_pages:
+            with self.subTest(reverse_name=reverse_name):
+                response = self.client.get(reverse_name)
+                self.assertEqual(len(response.context['page_obj']), (
+                    NUMBER_OF_POSTS_TEST - NUMBER_OF_POSTS))
