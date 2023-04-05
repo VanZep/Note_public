@@ -132,6 +132,7 @@ class ViewsTests(TestCase):
         self.assertEqual(
             response.context.get('author'), ViewsTests.post.author
         )
+        self.assertTrue(response.context.get('following'))
         self.checking_post_attributes(response.context['page_obj'][0])
 
     def test_post_detail_page_show_correct_context(self):
@@ -195,46 +196,28 @@ class ViewsTests(TestCase):
                 self.assertIsInstance(form_field, expected)
         self.assertTrue(response.context.get('is_edit'))
 
-    def test_new_post_first_position_of_index_page(self):
-        """Новый пост занимает первую позицию на странице index."""
+    def test_new_post_first_position_of_index_group_list_profile(self):
+        """Новый пост занимает первую позицию на страницах
+        index, group_list, profile.
+        """
         new_post = Post.objects.create(
             author=ViewsTests.user,
             group=ViewsTests.group,
             text=ViewsTests.post.text
         )
-        response = self.client.get(reverse('posts:index'))
-        first_post = response.context['page_obj'][0]
-        self.assertEqual(first_post, new_post)
-
-    def test_new_post_first_position_of_group_list_page(self):
-        """Новый пост занимает первую позицию на странице group_list."""
-        new_post = Post.objects.create(
-            author=ViewsTests.user,
-            group=ViewsTests.group,
-            text=ViewsTests.post.text
-        )
-        response = self.client.get(
+        page_reverse_name = [
+            reverse('posts:index'),
             reverse(
                 'posts:group_list', kwargs={'slug': ViewsTests.group.slug}
-            )
-        )
-        first_post = response.context['page_obj'][0]
-        self.assertEqual(first_post, new_post)
-
-    def test_new_post_first_position_of_profile_page(self):
-        """Новый пост занимает первую позицию на странице profile."""
-        new_post = Post.objects.create(
-            author=ViewsTests.user,
-            group=ViewsTests.group,
-            text=ViewsTests.post.text
-        )
-        response = self.client.get(
+            ),
             reverse(
                 'posts:profile', kwargs={'username': ViewsTests.user.username}
             )
-        )
-        first_post = response.context['page_obj'][0]
-        self.assertEqual(first_post, new_post)
+        ]
+        for reverse_name in page_reverse_name:
+            with self.subTest(reverse_name=reverse_name):
+                response = self.client.get(reverse_name)
+        self.assertEqual(response.context['page_obj'][0], new_post)
 
     def test_new_post_not_in_wrong_group(self):
         """Новый пост не попал в контекст чужой группы."""
