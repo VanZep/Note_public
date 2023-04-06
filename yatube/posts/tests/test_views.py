@@ -290,6 +290,30 @@ class ViewsTests(TestCase):
         )
         self.assertEqual(Follow.objects.count(), follow_counts)
 
+    def test_new_post_appear_not_appear_in_follow_index(self):
+        """Новый пост другого пользователя не появляется в ленте до подписки,
+        но появляется в ленте после подписки.
+        """
+        new_post = Post.objects.create(
+            author=ViewsTests.user,
+            group=ViewsTests.group,
+            text=ViewsTests.post.text
+        )
+        response = self.auth_client2.get(reverse('posts:follow_index'))
+        before_follow = response.context.get('page_obj')
+        self.auth_client2.get(
+            reverse(
+                'posts:profile_follow', kwargs={
+                    'username': ViewsTests.user.username
+                }
+            )
+        )
+        response = self.auth_client2.get(reverse('posts:follow_index'))
+        self.assertNotIsInstance(
+            response.context.get('page_obj'), tuple(before_follow)
+        )
+        self.assertEqual(response.context.get('page_obj')[0], new_post)
+
 
 class PaginatorViewsTests(TestCase):
     """Тестирует Paginator для view-функций."""
