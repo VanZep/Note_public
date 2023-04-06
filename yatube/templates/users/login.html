@@ -10,7 +10,6 @@
           Войти на сайт
         </div>
         <div class="card-body">
-          {% load user_filters %}
           {% include 'includes/form_errors.html' %}
             <form method="post" action="{% url 'users:login' %}">
               {% csrf_token %}
@@ -22,22 +21,7 @@
                     aria-required="false"
                   {% endif %}
                 >
-                  <label for="{{ field.id_for_label }}">
-                    {{ field.label }}
-                      {% if field.field.required %}
-                        <span class="required text-danger">
-                          *
-                        </span>
-                      {% endif %}
-                  </label>
-                  <div>
-                  {{ field|addclass:'form-control' }}
-                    {% if field.help_text %}
-                      <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
-                        {{ field.help_text|safe }}
-                      </small>
-                    {% endif %}
-                  </div>
+                  {% include 'includes/form_fields.html' %}
                 </div>
               {% endfor %}
               <div class="col-md-6 offset-md-4">
