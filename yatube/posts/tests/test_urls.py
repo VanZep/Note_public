@@ -114,7 +114,8 @@ class URLTests(TestCase):
             f'/profile/{URLTests.user.username}/': 'posts/profile.html',
             f'/posts/{URLTests.post.pk}/': 'posts/post_detail.html',
             '/create/': 'posts/create_post.html',
-            f'/posts/{URLTests.post.pk}/edit/': 'posts/create_post.html'
+            f'/posts/{URLTests.post.pk}/edit/': 'posts/create_post.html',
+            '/follow/': 'posts/follow.html'
         }
         for address, template in templates_url_names.items():
             with self.subTest(address=address):
