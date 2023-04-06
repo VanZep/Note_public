@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from ..models import Post, Group, User, Comment
+from ..models import Post, Group, User, Comment, Follow
 from ..constants import NUMBER_OF_POSTS, NUMBER_OF_POSTS_TEST
 
 
@@ -22,7 +22,8 @@ class ViewsTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = User.objects.create_user(username='Автор поста')
+        cls.user = User.objects.create_user(username='Автор')
+        cls.user2 = User.objects.create_user(username='Автор2')
         cls.group = Group.objects.create(
             title='Тестовое название группы',
             slug='test-slug',
@@ -59,7 +60,9 @@ class ViewsTests(TestCase):
 
     def setUp(self):
         self.auth_client = Client()
+        self.auth_client2 = Client()
         self.auth_client.force_login(ViewsTests.user)
+        self.auth_client2.force_login(ViewsTests.user2)
 
     def checking_post_attributes(self, post):
         """Проверка атрибутов поста."""
@@ -125,7 +128,7 @@ class ViewsTests(TestCase):
 
     def test_profile_page_show_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
-        response = self.client.get(
+        response = self.auth_client.get(
             reverse(
                 'posts:profile', kwargs={'username': ViewsTests.user.username}
             )
@@ -133,7 +136,7 @@ class ViewsTests(TestCase):
         self.assertEqual(
             response.context.get('author'), ViewsTests.post.author
         )
-        self.assertFalse(response.context.get('following'))
+        self.assertTrue(response.context.get('following'))
         self.checking_post_attributes(response.context['page_obj'][0])
 
     def test_post_detail_page_show_correct_context(self):
@@ -252,6 +255,28 @@ class ViewsTests(TestCase):
         self.assertEqual(page_content, cached_page_content)
         self.assertNotEqual(page_content, response.content)
         self.assertNotEqual(cached_page_content, response.content)
+
+    def test_auth_user_follow_unfollow(self):
+        """Авторизованный пользователь может подписываться на других пользователей,
+        отписываться от других пользователей.
+        """
+        follow_counts = Follow.objects.count()
+        self.auth_client2.get(
+            reverse(
+                'posts:profile_follow', kwargs={
+                    'username': ViewsTests.user.username
+                }
+            )
+        )
+        self.assertEqual(Follow.objects.count(), follow_counts + 1)
+        self.auth_client2.get(
+            reverse(
+                'posts:profile_unfollow', kwargs={
+                    'username': ViewsTests.user.username
+                }
+            )
+        )
+        self.assertEqual(Follow.objects.count(), follow_counts)
 
 
 class PaginatorViewsTests(TestCase):
