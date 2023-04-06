@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-  Подписки
+    Подписки
 {% endblock %}
 {% block content %}
-{% include 'posts/includes/switcher.html' %}
+{% include 'posts/includes/switcher.html' with follow=True %}
     <div class="container py-5">
         <h1>
             Посты авторов, на которых подписан {{ request.user.get_full_name }}
