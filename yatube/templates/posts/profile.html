@@ -37,6 +37,9 @@
     {% endif %}
     {% for post in page_obj %}
       {% include 'posts/includes/arcticle.html' with show_group_link=True %}
+      {% if not forloop.last %}
+        <hr>
+      {% endif %}
     {% endfor %}
   </div>
 {% endblock %}
