@@ -200,6 +200,18 @@ class ViewsTests(TestCase):
                 self.assertIsInstance(form_field, expected)
         self.assertTrue(response.context.get('is_edit'))
 
+    def test_follow_index_page_show_correct_context(self):
+        """Шаблон follow_index сформирован с правильным контекстом."""
+        self.auth_client2.get(
+            reverse(
+                'posts:profile_follow', kwargs={
+                    'username': ViewsTests.user.username
+                }
+            )
+        )
+        response = self.auth_client2.get(reverse('posts:follow_index'))
+        self.checking_post_attributes(response.context['page_obj'][0])
+
     def test_new_post_first_position_of_index_group_list_profile(self):
         """Новый пост занимает первую позицию на страницах
         index, group_list, profile.
