@@ -91,6 +91,7 @@ class ViewsTests(TestCase):
             reverse(
                 'posts:post_edit', kwargs=kwargs_post_id
             ): 'posts/create_post.html',
+            reverse('posts:follow_index'): 'posts/follow.html'
         }
         for reverse_name, template in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
@@ -132,7 +133,7 @@ class ViewsTests(TestCase):
         self.assertEqual(
             response.context.get('author'), ViewsTests.post.author
         )
-        self.assertTrue(response.context.get('following'))
+        self.assertFalse(response.context.get('following'))
         self.checking_post_attributes(response.context['page_obj'][0])
 
     def test_post_detail_page_show_correct_context(self):
