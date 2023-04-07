@@ -326,7 +326,7 @@ class PaginatorViewsTests(TestCase):
             slug='test-slug',
             description='Тестовое описание группы'
         )
-        cls.post = Post.objects.bulk_create([
+        Post.objects.bulk_create([
             Post(
                 author=cls.user,
                 group=cls.group,
