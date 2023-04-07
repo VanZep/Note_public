@@ -312,6 +312,18 @@ class ViewsTests(TestCase):
         response = self.auth_client2.get(reverse('posts:follow_index'))
         self.assertEqual(response.context.get('page_obj')[0], new_post)
 
+    def test_new_post_not_appear_in_follow_index(self):
+        """Новый пост одного пользователя не появляется в ленте,
+        не подписанного на него, другого пользователя.
+        """
+        new_post = Post.objects.create(
+            author=ViewsTests.user2,
+            group=ViewsTests.group,
+            text=ViewsTests.post.text
+        )
+        response = self.auth_client.get(reverse('posts:follow_index'))
+        self.assertNotIn(new_post, response.context['page_obj'][:])
+
 
 class PaginatorViewsTests(TestCase):
     """Тестирует Paginator для view-функций."""
