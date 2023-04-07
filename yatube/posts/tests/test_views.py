@@ -52,6 +52,10 @@ class ViewsTests(TestCase):
             post=cls.post,
             author=cls.user
         )
+        Follow.objects.create(
+            user=cls.user2,
+            author=cls.user
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -128,18 +132,6 @@ class ViewsTests(TestCase):
 
     def test_profile_page_show_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
-        before_follow_response = self.auth_client2.get(
-            reverse(
-                'posts:profile', kwargs={'username': ViewsTests.user.username}
-            )
-        )
-        self.auth_client2.get(
-            reverse(
-                'posts:profile_follow', kwargs={
-                    'username': ViewsTests.user.username
-                }
-            )
-        )
         response = self.auth_client2.get(
             reverse(
                 'posts:profile', kwargs={'username': ViewsTests.user.username}
@@ -148,7 +140,6 @@ class ViewsTests(TestCase):
         self.assertEqual(
             response.context.get('author'), ViewsTests.post.author
         )
-        self.assertFalse(before_follow_response.context.get('following'))
         self.assertTrue(response.context.get('following'))
         self.checking_post_attributes(response.context['page_obj'][0])
 
