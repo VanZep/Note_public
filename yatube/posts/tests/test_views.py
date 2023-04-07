@@ -279,6 +279,27 @@ class ViewsTests(TestCase):
             author=ViewsTests.user2
         ))
 
+    def test_auth_user_unfollow(self):
+        """Авторизованный пользователь может отписываться
+        от других пользователей.
+        """
+        before_unfollow_object = Follow.objects.get(
+            user=ViewsTests.user2,
+            author=ViewsTests.user
+        )
+        self.auth_client2.get(
+            reverse(
+                'posts:profile_unfollow', kwargs={
+                    'username': ViewsTests.user.username
+                }
+            )
+        )
+        self.assertTrue(before_unfollow_object)
+        self.assertFalse(Follow.objects.filter(
+            user=ViewsTests.user2,
+            author=ViewsTests.user
+        ).count())
+
     def test_new_post_appear_not_appear_in_follow_index(self):
         """Новый пост другого пользователя не появляется в ленте до подписки,
         но появляется в ленте после подписки.
