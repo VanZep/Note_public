@@ -163,21 +163,7 @@ class ViewsTests(TestCase):
         form_fields = {
             'text': forms.fields.CharField
         }
-        self.assertEqual(
-            response.context.get('post').text, ViewsTests.post.text
-        )
-        self.assertEqual(
-            response.context.get('post').author, ViewsTests.post.author
-        )
-        self.assertEqual(
-            response.context.get('post').group, ViewsTests.post.group
-        )
-        self.assertEqual(
-            response.context.get('post').pk, ViewsTests.post.pk
-        )
-        self.assertEqual(
-            response.context.get('post').image, ViewsTests.post.image
-        )
+        self.checking_post_attributes(response.context.get('post'))
         self.assertEqual(comment.text, ViewsTests.comment.text)
         self.assertEqual(comment.post, ViewsTests.comment.post)
         self.assertEqual(comment.author, ViewsTests.comment.author)
