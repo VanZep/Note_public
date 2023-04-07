@@ -310,7 +310,7 @@ class ViewsTests(TestCase):
             text=ViewsTests.post.text
         )
         response = self.auth_client2.get(reverse('posts:follow_index'))
-        self.assertEqual(response.context.get('page_obj')[0], new_post)
+        self.assertEqual(response.context['page_obj'][0], new_post)
 
     def test_new_post_not_appear_in_follow_index(self):
         """Новый пост одного пользователя не появляется в ленте,
