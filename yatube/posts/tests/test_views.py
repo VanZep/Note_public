@@ -258,27 +258,26 @@ class ViewsTests(TestCase):
         self.assertNotEqual(page_content, response.content)
         self.assertNotEqual(cached_page_content, response.content)
 
-    def test_auth_user_follow_unfollow(self):
-        """Авторизованный пользователь может подписываться на других пользователей,
-        отписываться от других пользователей.
+    def test_auth_user_follow(self):
+        """Авторизованный пользователь может подписываться
+        на других пользователей.
         """
-        follow_counts = Follow.objects.count()
-        self.auth_client2.get(
+        before_follow_object = Follow.objects.filter(
+            user=ViewsTests.user,
+            author=ViewsTests.user2
+        ).count()
+        self.auth_client.get(
             reverse(
                 'posts:profile_follow', kwargs={
-                    'username': ViewsTests.user.username
+                    'username': ViewsTests.user2.username
                 }
             )
         )
-        self.assertEqual(Follow.objects.count(), follow_counts + 1)
-        self.auth_client2.get(
-            reverse(
-                'posts:profile_unfollow', kwargs={
-                    'username': ViewsTests.user.username
-                }
-            )
-        )
-        self.assertEqual(Follow.objects.count(), follow_counts)
+        self.assertFalse(before_follow_object)
+        self.assertTrue(Follow.objects.get(
+            user=ViewsTests.user,
+            author=ViewsTests.user2
+        ))
 
     def test_new_post_appear_not_appear_in_follow_index(self):
         """Новый пост другого пользователя не появляется в ленте до подписки,
