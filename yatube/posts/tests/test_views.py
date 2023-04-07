@@ -232,7 +232,7 @@ class ViewsTests(TestCase):
         for reverse_name in reverse_name_pages:
             with self.subTest(reverse_name=reverse_name):
                 response = self.client.get(reverse_name)
-        self.assertEqual(response.context['page_obj'][0], new_post)
+                self.assertEqual(response.context['page_obj'][0], new_post)
 
     def test_new_post_not_in_wrong_group(self):
         """Новый пост не попал в контекст чужой группы."""
