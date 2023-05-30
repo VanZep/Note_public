@@ -26,7 +26,7 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
-- В свем враузере введите адрес:
+- В своем враузере введите адрес:
 ```
 http://127.0.0.1:8000/
 ```
