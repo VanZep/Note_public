@@ -31,33 +31,18 @@ Django 2.2.16
     source venv/Scripts/activate
     ```
 3. Установите зависимости из файла requirements.txt
-```bash
+```
 pip install -r requirements.txt
 ```
 4. В папке с файлом manage.py выполните миграции:
-```bash
+```
 python manage.py migrate
 ```
 5. В директории с файлом manage.py выполните команду:
-```bash
+```
 python manage.py runserver
 ```
 В ответ Django сообщит, что сервер запущен и проект доступен по адресу [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
-- Установите зависимости из файла requirements.txt
-```
-pip install -r requirements.txt
-```
-- В папке с файлом manage.py выполните миграции:
-```
-python manage.py migrate
-```
-- В папке с файлом manage.py выполните команду:
-```
-python manage.py runserver
-```
-- В своем враузере введите адрес:
-```
-http://127.0.0.1:8000/
-```
+
 ### Автор
 ***VanZep***
