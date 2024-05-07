@@ -9,18 +9,18 @@ Django 2.2.16
 1. Создайте виртуальное окружение
 - Linux/macOS
 
-    ```bash
+    ```
     python3 -m venv venv
     ```
 - Windows
 
-    ```python
+    ```
     python -m venv venv
     ```
 2. Активируйте виртуальное окружение
 - Linux/macOS
 
-    ```bash
+    ```
     source venv/bin/activate
     ```
 - Windows
