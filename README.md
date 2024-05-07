@@ -8,25 +8,19 @@ Django 2.2.16
 ### Запуск проекта в dev-режиме
 1. Создайте виртуальное окружение
 - Linux/macOS
-    
     ```
     python3 -m venv venv
     ```
-    
 - Windows
-    
     ```
     python -m venv venv
     ```
 2. Активируйте виртуальное окружение
 - Linux/macOS
-    
     ```
     source venv/bin/activate
     ```
-    
 - Windows
-    
     ```
     source venv/Scripts/activate
     ```
