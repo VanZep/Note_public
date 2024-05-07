@@ -12,13 +12,11 @@ Django 2.2.16
     ```
     python3 -m venv venv
     ```
-
 - Windows
 
     ```
     python -m venv venv
     ```
-
 2. Активируйте виртуальное окружение
 - Linux/macOS
 
@@ -34,11 +32,11 @@ Django 2.2.16
 ```
 pip install -r requirements.txt
 ```
-4. В папке с файлом manage.py выполните миграции:
+4. В папке с файлом manage.py выполните миграции
 ```
 python manage.py migrate
 ```
-5. В директории с файлом manage.py выполните команду:
+5. В директории с файлом manage.py выполните команду
 ```
 python manage.py runserver
 ```
