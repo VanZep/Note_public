@@ -9,22 +9,40 @@ Django 2.2.16
 1. Создайте виртуальное окружение
 - Linux/macOS
     
-    ```bash
+    ```
     python3 -m venv venv
     ```
     
 - Windows
     
-    ```python
+    ```
     python -m venv venv
     ```
+2. Активируйте виртуальное окружение
+- Linux/macOS
+    
+    ```
+    source venv/bin/activate
+    ```
+    
+- Windows
+    
+    ```
+    source venv/Scripts/activate
+    ```
+3. Установите зависимости из файла requirements.txt
+```bash
+pip install -r requirements.txt
 ```
-python -m venv venv
+4. В папке с файлом manage.py выполните миграции:
+```bash
+python manage.py migrate
 ```
-- Активируйте виртуальное окружение
+5. В директории с файлом manage.py выполните команду:
+```bash
+python manage.py runserver
 ```
-source venv/Scripts/activate
-```
+В ответ Django сообщит, что сервер запущен и проект доступен по адресу [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 - Установите зависимости из файла requirements.txt
 ```
 pip install -r requirements.txt
