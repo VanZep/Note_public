@@ -6,7 +6,18 @@
 Python 3.7,
 Django 2.2.16
 ### Запуск проекта в dev-режиме
-- Установите виртуальное окружение
+1. Создайте виртуальное окружение
+- Linux/macOS
+    
+    ```bash
+    python3 -m venv venv
+    ```
+    
+- Windows
+    
+    ```python
+    python -m venv venv
+    ```
 ```
 python -m venv venv
 ```
