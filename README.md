@@ -21,10 +21,12 @@ Django 2.2.16
 
 2. Активируйте виртуальное окружение
 - Linux/macOS
+
     ```
     source venv/bin/activate
     ```
 - Windows
+
     ```
     source venv/Scripts/activate
     ```
