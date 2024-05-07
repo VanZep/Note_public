@@ -44,14 +44,3 @@ python manage.py runserver
 
 ### Автор
 ***VanZep***
-
-### Запуск проекта в dev-режиме
-- **Установите виртуальное окружение:**
-+ *для Windows*
-```
-python -m venv venv
-```
-+ *для macOS*
-```
-python3 -m venv venv
-```
