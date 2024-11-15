@@ -8,9 +8,9 @@ Django 2.2.16
 ### Запуск проекта в dev-режиме
 1. Склонируйте проект к себе на компьютер
 - Для этого из нужной директории в командной строке выполните команду
-  ```
-  git clone git@github.com:VanZep/Yatube.git
-  ```
+```
+git clone git@github.com:VanZep/Yatube.git
+```
 2. Перейдите в каталог проекта
 ```
 cd Yatube
