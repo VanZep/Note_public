@@ -16,23 +16,19 @@ cd Yatube
 ```
 3. Создайте виртуальное окружение
 - Linux/macOS
-
 ```
 python3 -m venv venv
 ```
 - Windows
-
 ```
 python -m venv venv
 ```
 4. Активируйте виртуальное окружение
 - Linux/macOS
-
 ```
 source venv/bin/activate
 ```
 - Windows
-
 ```
 source venv/Scripts/activate
 ```
