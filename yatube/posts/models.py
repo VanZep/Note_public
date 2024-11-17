@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 from .constants import NUMBER_OF_CHAR
 
+
 User = get_user_model()
 
 
@@ -23,6 +24,7 @@ class Group(models.Model):
     )
 
     class Meta:
+        verbose_name = 'группа'
         verbose_name_plural = 'Группы'
 
     def __str__(self):
@@ -97,6 +99,7 @@ class Comment(models.Model):
     )
 
     class Meta:
+        verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
@@ -118,3 +121,10 @@ class Follow(models.Model):
         related_name='following',
         verbose_name='Автор'
     )
+
+    class Meta:
+        verbose_name = 'подписчик'
+        verbose_name_plural = 'Подписчики'
+
+    def __str__(self):
+        return f'{self.user.username} подписан на {self.author.username}'

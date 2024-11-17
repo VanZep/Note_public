@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}
-    Подписки
+  Подписки
 {% endblock %}
 {% block content %}
 {% include 'posts/includes/switcher.html' with follow=True %}
-    <div class="container py-5">
-        <h1>
-            Посты авторов, на которых подписан {{ request.user.get_full_name }}
-        </h1>
-        {% for post in page_obj %}
-            {% include 'posts/includes/arcticle.html' with show_group_link=True %}
-            {% if not forloop.last %}
-                <hr>
-            {% endif %}
-        {% endfor %}
-    </div>
+  <div class="container py-5">
+    <h1>
+      Посты авторов, на которых подписан {{ request.user.get_full_name }}
+    </h1>
+    {% for post in page_obj %}
+      {% include 'posts/includes/arcticle.html' with show_group_link=True %}
+      {% if not forloop.last %}
+        <hr>
+      {% endif %}
+    {% endfor %}
+  </div>
 {% endblock %}
