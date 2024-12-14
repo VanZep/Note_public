@@ -1,14 +1,10 @@
 import os
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 SECRET_KEY = 'b48ix&#zlux0nb%%4f=eyfwh#fkq6vs-&r8-_7o_j^$g37+0jq'
 
-
 DEBUG = True
-
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -16,7 +12,6 @@ ALLOWED_HOSTS = [
     '[::1]',
     'testserver',
 ]
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,7 +26,6 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
 ]
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -42,9 +36,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'yatube.urls'
-
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
@@ -64,9 +56,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'yatube.wsgi.application'
-
 
 DATABASES = {
     'default': {
@@ -74,7 +64,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -95,7 +84,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
@@ -106,28 +94,22 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
-
 
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'

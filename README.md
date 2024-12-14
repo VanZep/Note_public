@@ -38,7 +38,7 @@ pip install -r requirements.txt
 ```
 6. Перейдите в директорию с файлом manage.py
 ```
-cd yatube
+cd notetube
 ```
 7. Выполните миграции
 ```
